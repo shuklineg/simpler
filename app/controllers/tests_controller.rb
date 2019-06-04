@@ -3,9 +3,15 @@ class TestsController < Simpler::Controller
     @time = Time.now
     return unless params['inline']
 
-    headers['Content-Type'] = 'text/plain'
     status 201
-    render erb: '<%= @time %>'
+
+    case params['inline']
+    when 'erb'
+      render erb: '<b>time from erb <%= @time %></b>'
+    when 'plain'
+      headers['Content-Type'] = 'text/plain'
+      render plain: @time
+    end
   end
 
   def create; end
