@@ -3,8 +3,9 @@ module Simpler
     class Logger
       DEFAULT_FILE_NANE = 'log/app.log'.freeze
 
-      def initialize(app)
+      def initialize(app, file_name = nil)
         @app = app
+        @file_name = file_name
       end
 
       def call(env)
@@ -16,7 +17,7 @@ module Simpler
       private
 
       def log(msg)
-        File.open(Simpler.root.join(DEFAULT_FILE_NANE), 'a') do |file|
+        File.open(Simpler.root.join(@file_name || DEFAULT_FILE_NANE), 'a') do |file|
           file << "#{Time.now}\n"
           file << msg
         end
